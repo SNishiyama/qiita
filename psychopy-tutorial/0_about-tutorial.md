@@ -7,12 +7,12 @@
 1. 参加者情報の入力（[第6回](https://qiita.com/snishym/items/5e01641150581c632bea)）
 2. 課題の教示（[第7回](https://qiita.com/snishym/items/3c4b801c25bb98dd0d4e)）
 3. 刺激のランダム提示（[第1回](https://qiita.com/snishym/items/5c33710aca0fea3d41ec)，[第2回](https://qiita.com/snishym/items/31c980f08e62190469f9)，[第3回](https://qiita.com/snishym/items/1bdf90cf51ba28cc4ef3)，[第4回](https://qiita.com/snishym/items/0b10e714363656094181)）
-4. キー反応の取得（[第4回](https://qiita.com/snishym/items/0b10e714363656094181)）
+4. キー反応の取得（[第4回](https://qiita.com/snishym/items/0b10e714363656094181)，[第4回補足](https://qiita.com/snishym/items/f343f24ca8c77ba1fb4a)）
 5. データの保存（[第5回](https://qiita.com/snishym/items/f80607cbe462f8a4e1d4)）
 
 番外編として，[【第8回】実験データの集約](https://qiita.com/snishym/items/b4cf8b8a4ac2b8b69bc5)があります。
 
-想定しているターゲットは，どの言語のプログラミング経験もない人です。Pythonの基本を知っている必要はありません。シリーズでは，PsychoPy心理学実験を作成するのに必要なテクニックをPythonの構文も織り交ぜながら順番に説明していきます。もちろん，Pythonの基本は押さえたがPsychoPyはこれからという人にも有用な資料になっているはずです。
+想定しているターゲットは，どの言語のプログラミング経験もない人です。Pythonの基本を知っている必要はありません。シリーズでは，PsychoPyで心理学実験を作成するのに必要なテクニックをPythonの構文も織り交ぜながら順番に説明していきます。もちろん，Pythonの基本は押さえたがPsychoPyはこれからという人にも有用な資料になっているはずです。
 
 ### 確認済み動作環境
 
