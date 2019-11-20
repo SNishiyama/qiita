@@ -172,6 +172,8 @@ print(moji_list[0][1]) # 'a'（['あ','a']の1番目）
 
 trialIDは試行ごとに1ずつ増えるようにしてください。また，前回の最後に紹介した刺激のランダマイズをしていなければランダマイズにも挑戦してください。
 
+<details><summary>コード例</summary><div>
+
 ```python:save_simon_data.py
 from psychopy import visual, core, event
 import random
@@ -223,6 +225,8 @@ win.close()
 ```
 
 うまく保存のためのコードを組み込むことができたでしょうか？上記のコードでは見やすさのために，`.format`の行を`.write`の行と分けて書いています。**列名や試行ごとのデータ文字列を生成する際，改行`\n`を最後に入れ忘れないようにしましょう**。
+
+</div></details>
 
 # おわりに
 

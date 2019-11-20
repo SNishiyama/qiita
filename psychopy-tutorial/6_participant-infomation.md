@@ -141,6 +141,8 @@ win.close()
 
 下記のコードを見る前にご自身でコードの改変に挑戦してみてください。
 
+<details><summary>コード例</summary><div>
+
 ```python:simon_with_subjInfo.py
 from psychopy import visual, core, event, gui # 追加し忘れない
 import random
@@ -213,6 +215,8 @@ win.close()
 2点目は，課題中の実験の中止についてです。ここでもelseは使っていません。理由は前節に書いた通りです。
 
 最後3点目はデータの保存に関してです。保存する内容を増やしているので，それにあわせて**ファイルの列名，`{}`の数を揃えるようにしましょう**。
+
+</div></details>
 
 # おわりに
 

@@ -233,6 +233,8 @@ run_simon_task(phase = 'main', stim_list = main_list) # 本番
 
 サイモン課題の最初に注視点を表示したり，試行が終わるごとに空白画面を出す（ITI）ようにしてください。特に説明はしませんでしたが，これまで説明したことしか使わないです。
 
+<details><summary>コード例</summary><div>
+
 ```python:simon_exp.py
 from psychopy import visual, core, event, gui
 import random
@@ -362,6 +364,8 @@ win.close()
 ```
 
 自作関数の作成にともない，これまで序盤に持ってきていた`letter_pos`の定義を自作関数の定義のあとに移動させました。その方が，自作関数で利用されているものとそうでないものの区別がつきやすく，コードの管理が容易になるからです。課題の関数内に教示後の空白画面と，注視点，ITIが増えているのもよく見ておいてください。
+
+</div></details>
 
 # おわりに
 
