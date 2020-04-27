@@ -222,33 +222,33 @@ jsPsych.init({
 
 さらなる効率化を求める人はこのように思うかもしれません。
 
-> `<div class="text_left">L</div>`も，`text_left`と`L`以外の部分はすべて共通なのだから，`<div class=""></div>`も試行変数の中に入れてしまったほうがいいのではないか。
+> `<div class="text_left">L</div>`も，`left`と`L`以外の部分はすべて共通なのだから，`<div class="text_..."></div>`も試行変数の中に入れてしまったほうがいいのではないか。
 
-この発想を`jsPsych.timelineVariable()`で実装することは可能です。しかし，今回のサイモン課題に限ってはむしろコードを読みにくくすることになります。他の実験課題を作成する際には使えると便利な場合もあるので，覚えておいて損はないでしょう。「損はないでしょう」という程度なので，以下の内容を理解できなくても問題ないと思います。
+この発想も`jsPsych.timelineVariable()`で実装することができます。文字や位置をデータとして保存したい場合（**第5回（リンク貼る）**）はこれから紹介する方法のほうが便利です。内容はすこし難しいかもしれませんが，理解してもらえればと思います
 
-このセクションの目標は，`<div class="クラス名">文字</div>`の`クラス名`と`文字`が試行ごとに変わるようにすることです。ということは`trial_types`を以下のように変更すれば大丈夫です。以下では，クラス名は位置のことなので，posというキーをつけています。
+このセクションの目標は，`<div class="text_位置">文字</div>`の`位置`と`文字`が試行ごとに変わるようにすることです。ということは`trial_types`を以下のように変更すれば大丈夫です。
 
 ```javascript
 var trial_types = [
-  {letter: 'L', pos: 'text_left'},
-  {letter: 'R', pos: 'text_left'},
-  {letter: 'L', pos: 'text_right'},
-  {letter: 'R', pos: 'text_right'},
+  {letter: 'L', pos: 'left'},
+  {letter: 'R', pos: 'left'},
+  {letter: 'L', pos: 'right'},
+  {letter: 'R', pos: 'right'},
 ];
 ```
 
-次にstimulusの部分です。位置と文字はそれぞれ`jsPsych.timelineVariable('pos')`，`jsPsych.timelineVariable('letter')`で呼び出せるので，それらを呼び出しつつ，`<div class="クラス名">文字</div>`となるように，以下のようにすればいい気がします。
+次にstimulusの部分です。位置と文字はそれぞれ`jsPsych.timelineVariable('pos')`，`jsPsych.timelineVariable('letter')`で呼び出せるので，それらを呼び出しつつ，`<div class="text_位置">文字</div>`となるように，以下のようにすればいい気がします。
 
 ```javascript
 var trial = {
   type: 'html-keyboard-response',
-  stimulus: '<div class="' + jsPsych.timelineVariable('pos') + '">' + jsPsych.timelineVariable('letter') + '</div>',
+  stimulus: '<div class="text_' + jsPsych.timelineVariable('pos') + '">' + jsPsych.timelineVariable('letter') + '</div>',
   choices: ['f', 'j'], // 入力キーの指定
   trial_duration: 1000, // 試行の持続時間
 }
 ```
 
-すでに`stimulus`の部分が見にくくなってしまいましたね。stimulusの部分で使っている`+`は文字列を連結しています。`timelineVariable()`で呼び出した値がそれぞれ`text_left`, `L`であれば，`<div class="` + `text_left` + `">` + `L` + `</div>` からすべてを連結して`<div class="text_left">L</div>`となります。
+すでに`stimulus`の部分が見にくくなってしまいましたね。stimulusの部分で使っている`+`は文字列を連結しています。`timelineVariable()`で呼び出した値がそれぞれ`left`, `L`であれば，`<div class="text_` + `left` + `">` + `L` + `</div>` からすべてを連結して`<div class="text_left">L</div>`となります。
 
 これらをまとめると，と言いたいところなのですが，上記のような`stimulus`の指定方法だと刺激はうまく提示されず，`function() { return timeline.timelineVariable(varname); }`というエラーメッセージが提示されます。なぜうまく回らないのかについては説明しません（できません）が，とにかく，エラーメッセージにあるように`function(){return ...}`という形にする必要があるようです。今回の例であれば，
 
@@ -256,7 +256,7 @@ var trial = {
   var trial = {
     type: 'html-keyboard-response',
     stimulus: function(){
-      return '<div class="' + jsPsych.timelineVariable('pos', true) + '">' + jsPsych.timelineVariable('letter', true) + '</div>'
+      return '<div class="text_' + jsPsych.timelineVariable('pos', true) + '">' + jsPsych.timelineVariable('letter', true) + '</div>'
     },
     choices: ['f', 'j'], // 入力キーの指定
     trial_duration: 1000, // 試行の持続時間
@@ -295,16 +295,16 @@ var trial = {
 <script>
 
   var trial_types = [
-    {letter: 'L', pos: 'text_left'},
-    {letter: 'R', pos: 'text_left'},
-    {letter: 'L', pos: 'text_right'},
-    {letter: 'R', pos: 'text_right'},
+    {letter: 'L', pos: 'left'},
+    {letter: 'R', pos: 'left'},
+    {letter: 'L', pos: 'right'},
+    {letter: 'R', pos: 'right'},
   ];
 
   var trial = {
     type: 'html-keyboard-response',
     stimulus: function(){
-      return '<div class="' + jsPsych.timelineVariable('pos', true) + '">' + jsPsych.timelineVariable('letter', true) + '</div>'
+      return '<div class="text_' + jsPsych.timelineVariable('pos', true) + '">' + jsPsych.timelineVariable('letter', true) + '</div>'
     },
     choices: ['f', 'j'], // 入力キーの指定
     trial_duration: 1000, // 試行の持続時間
@@ -326,71 +326,9 @@ var trial = {
 
 </div></details>
 
-`trial_types`が見やすくなった代わりに，`stimulus`の部分が見にくくなってしまいました。`<div>`を繰り返し書かなくていいという点では，コードを管理しやすくなったかもしれません。ただ，上でも少し書いたように，別の方法（例えば以下のコード）でも`<div>`を繰り返す書くことを避けることができるので，この`function(){...}`と組み合わせる`jsPsych.timelineVariable()`の使い方は個人的には使わないなぁという印象です。
+その1と比べると，`trial_types`が見やすくなった代わりに，`stimulus`の部分が見にくくなってしまいました。どちらがいいかは好みと必要性によって変わってくるので，ご自身の実験内容に合わせて利用してください。なお，本チュートリアルでは各試行で提示された文字と位置もデータに保存します。その場合，その2の方法のほうが簡単なので，以降のチュートリアルで登場するコード例にはその2の方法を使います。
 
-<details><summary>コード例</summary><div>
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <script src="../jspsych.js"></script>
-  <script src="../plugins/jspsych-html-keyboard-response.js"></script>
-  <link rel="stylesheet" href="../css/jspsych.css"></link>
-  <style>
-    .text_left {
-      position: absolute;
-      left: 40%;
-      top: 50%;
-      transform: translateY(-50%) translateX(-50%);
-    }
-    .text_right {
-      position: absolute;
-      right: 40%;
-      top: 50%;
-      transform: translateY(-50%) translateX(50%);
-    }
-  </style>
-</head>
-<body></body>
-<script>
-
-  var letters = ['L', 'R'];
-  var positions = ['text_left', 'text_right'];
-
-  var trial_types = [];
-  for (var idx_l = 0; idx_l < letters.length; idx_l++) {
-    for (var idx_p = 0; idx_p < positions.length; idx_p++) {
-      trial_types.push(
-        {letter: '<div class="' + positions[idx_p] + '">' + letters[idx_l] + '</div>'}
-      )
-    }
-  }
-
-  var trial = {
-    type: 'html-keyboard-response',
-    stimulus: jsPsych.timelineVariable('letter'),
-    choices: ['f', 'j'], // 入力キーの指定
-    trial_duration: 1000, // 試行の持続時間
-  }
-
-  var trial_types = jsPsych.randomization.repeat(trial_types, 2);
-
-  jsPsych.init({
-    timeline: [{ // [ と { 2つあります
-      timeline_variables: trial_types,
-      timeline: [trial],
-    }], // } と ] 2つあります
-    default_iti: 250,
-  });
-</script>
-
-</html>
-```
-
-</div></details>
-
-誤解があってはいけないので，念の為補足しておくと，`trial_types`に２つ以上のキーを持つ連想配列を入れる必要がないというわけではないです。例えば，刺激によって提示時間が異なるという場合には以下のようにして`trial_types`を作って，`jsPsych.timelineVariable()`で呼び出すことになります。
+念の為補足しておくと，`stimulus:`以外にも`jsPsych.timelineVariable()`を利用することができます。例えば，以下のようにすれば，刺激によって提示時間を変えることができます。
 
 ```javascript
 var trial_types = [
@@ -408,11 +346,9 @@ var trial = {
 };
 ```
 
-つまり，試行によって変更したい設定が，`trial`にある設定項目の２つ以上にまたがるときには，２つ以上のキーを持つ連想配列を作ることになります。
-
 # おわりに
 
-今回は`jsPsych.timelineVariable()`を使って必要な部分だけを試行ごとに変更できるようにすることで，試行変数を減らし，コードの管理をしやすくする方法を紹介しました。後半になるにつれて話が複雑になってしまったような気もしますが，`jsPsych.timelineVariable()`がないとjsPsychで実験を作るのが難しくなってしまうと思うので，「その１」の部分と最後の補足の部分は理解してもらえればと思います。
+今回は`jsPsych.timelineVariable()`を使って必要な部分だけを試行ごとに変更できるようにすることで，試行変数を減らし，コードの管理をしやすくする方法を紹介しました。後半になるにつれて話が複雑になってしまったような気もしますが，`jsPsych.timelineVariable()`がないとjsPsychで実験を作るのが難しくなってしまうと思うので，「その１」の部分だけでも理解してもらえればと思います。
 
 これでサイモン課題自体は完成しました。ただ，このままだと参加者が課題をどのように遂行したのかを知ることができません。そこで次回は，実験データを（手元のPC上に）保存する方法を紹介します。
 
