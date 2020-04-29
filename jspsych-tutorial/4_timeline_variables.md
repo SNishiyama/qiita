@@ -253,14 +253,14 @@ var trial = {
 これらをまとめると，と言いたいところなのですが，上記のような`stimulus`の指定方法だと刺激はうまく提示されず，`function() { return timeline.timelineVariable(varname); }`というエラーメッセージが提示されます。なぜうまく回らないのかについては説明しません（できません）が，とにかく，エラーメッセージにあるように`function(){return ...}`という形にする必要があるようです。今回の例であれば，
 
 ```javascript
-  var trial = {
-    type: 'html-keyboard-response',
-    stimulus: function(){
-      return '<div class="text_' + jsPsych.timelineVariable('pos', true) + '">' + jsPsych.timelineVariable('letter', true) + '</div>'
-    },
-    choices: ['f', 'j'], // 入力キーの指定
-    trial_duration: 1000, // 試行の持続時間
-  }
+var trial = {
+  type: 'html-keyboard-response',
+  stimulus: function(){
+    return '<div class="text_' + jsPsych.timelineVariable('pos', true) + '">' + jsPsych.timelineVariable('letter', true) + '</div>'
+  },
+  choices: ['f', 'j'], // 入力キーの指定
+  trial_duration: 1000, // 試行の持続時間
+}
 ```
 
 とします。突然`jsPsych.timelineVariable()`に`true`が入ってきたと思いますが，`function(){return ...}`の形で使用する場合はこうする必要があるようです（理由は説明できません）。
