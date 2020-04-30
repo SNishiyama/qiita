@@ -1,8 +1,8 @@
 # はじめに
 
-本記事は，「jsPsychによる心理学実験作成チュートリアル」の第7回の記事です。**第6回（リンク貼る）**では参加者情報の取得方法を紹介しました。そこで実験プログラムは完成しましたが，もう少し実験プログラムを作り込んで行きます。今回は課題の教示，課題の練習をこれまでのコードに追加します。
+本記事は，「jsPsychによる心理学実験作成チュートリアル」の第7回の記事です。[第6回](https://qiita.com/snishym/items/e0f82fa972970cda632c)では参加者情報の取得方法を紹介しました。そこで実験課題は完成しましたが，もう少し実験プログラムを作り込んで行きます。今回は課題の教示，課題の練習をこれまでのコードに追加します。
 
-<!-- このチュートリアルシリーズの目的・概要等が気になった方はこちらの[全体のまとめ](https://qiita.com/snishym/items/8b52db0d901cf5744463)をご一読ください。 -->
+このチュートリアルシリーズの目的・概要等が気になった方はこちらの[全体のまとめ](https://qiita.com/snishym/items/1e0511f8622282993ed1)をご一読ください。
 
 # 教示・長文テキスト
 
@@ -157,7 +157,7 @@ jsPsych.init({
 
 <details><summary>コード例</summary><div>
 
-```html
+```html:simon.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -173,12 +173,14 @@ jsPsych.init({
       left: 40%;
       top: 50%;
       transform: translateY(-50%) translateX(-50%);
+      -webkit-transform: translateY(-50%) translateX(-50%);
     }
     .text_right {
       position: absolute;
       right: 40%;
       top: 50%;
       transform: translateY(-50%) translateX(50%);
+      -webkit-transform: translateY(-50%) translateX(50%);
     }
   </style>
 </head>
@@ -325,3 +327,5 @@ jsPsych.init({
 これでサイモン課題実験が完成しました。お疲れ様です。ぜひ，身近な人に実施してみてください。
 
 もちろん，チュートリアルということで，jsPsychの機能のほんの一部しか紹介していません。ウィンドウの全画面表示の方法すら紹介していません。しかし，ここまでやり遂げたみなさんなら，ダウンロードしたjsPsychに同梱されているexampleコードや，[jsPsychの公式リファレンス](https://www.jspsych.org/)を見ながら，ご自身の研究課題に合わせてコードを書くことができるはずです。
+
+これからもがんばってください。

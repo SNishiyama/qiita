@@ -1,8 +1,8 @@
 # はじめに
 
-本記事は，「jsPsych による心理学実験作成チュートリアル」の第 3 回の記事です。**第 2 回（リンクを貼る）**では for 文を利用した刺激の系列提示の方法を紹介しました。今回は，刺激の提示位置の変更方法について解説します。詳細は右側の見出しリストをご覧ください。
+本記事は，「jsPsych による心理学実験作成チュートリアル」の第 3 回の記事です。[第 2 回](https://qiita.com/snishym/items/a121a4d6a02c71b69f3e)では for 文を利用した刺激の系列提示の方法を紹介しました。今回は，刺激の提示位置の変更方法について解説します。詳細は右側の見出しリストをご覧ください。
 
-<!-- このチュートリアルシリーズの目的・概要等が気になった方はこちらの[全体のまとめ](https://qiita.com/snishym/items/8b52db0d901cf5744463)をご一読ください。 -->
+このチュートリアルシリーズの目的・概要等が気になった方はこちらの[全体のまとめ](https://qiita.com/snishym/items/1e0511f8622282993ed1)をご一読ください。
 
 # 刺激の提示位置を変更する
 
@@ -123,7 +123,7 @@ HTMLでは，`<div style="...">`で指定していた`style`を，`<head>`タグ
 
 <details><summary>コード例</summary><div>
 
-```html:change_position.html
+```html:check_position.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -248,7 +248,7 @@ HTMLでは，`<div style="...">`で指定していた`style`を，`<head>`タグ
 
 以下の例では，Lを画面左側に提示し，RはjsPsychの標準の処理で画面中央に提示するようにしています。実行して，LとRの縦方向の提示位置がどうなっているのかを確認してみてください。
 
-```html
+```html:change_position_transform.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -261,12 +261,14 @@ HTMLでは，`<div style="...">`で指定していた`style`を，`<head>`タグ
       left: 40%;
       top: 50%;
       transform: translateY(-50%) translateX(-50%);
+      -webkit-transform: translateY(-50%) translateX(-50%);
     }
     .text_right {
       position: absolute;
       right: 40%;
       top: 50%;
       transform: translateY(-50%) translateX(50%);
+      -webkit-transform: translateY(-50%) translateX(50%);
     }
   </style>
 </head>
@@ -306,4 +308,4 @@ HTMLでは，`<div style="...">`で指定していた`style`を，`<head>`タグ
 
 次回は，LとRをランダムに左右に提示する方法を紹介します。これまでの例ではLとRの提示位置は固定されていて，Lは左，Rは右にしか提示されていませんでした。次回の内容で，ひとまず，サイモン課題が完成します。引き続きがんばりましょう！
 
-<!-- [【第 4 回】キー反応の取得・刺激のランダマイズ](https://qiita.com/snishym/items/0b10e714363656094181) -->
+[【第4回】キー反応の取得・刺激のランダマイズ](https://qiita.com/snishym/items/ccbf53e64e313584dd48)

@@ -1,14 +1,14 @@
 # はじめに
 
-本記事は，「jsPsychによる心理学実験作成チュートリアル」の第6回の記事です。**第5回（リンク貼る）**では実験データの保存方法を紹介しました。今回は，参加者情報の取得について紹介します。
+本記事は，「jsPsychによる心理学実験作成チュートリアル」の第6回の記事です。[第5回](https://qiita.com/snishym/items/be23aa7cbeeffa49d13a)では実験データの保存方法を紹介しました。今回は，参加者情報の取得について紹介します。
 
-<!-- このチュートリアルシリーズの目的・概要等が気になった方はこちらの[全体のまとめ](https://qiita.com/snishym/items/8b52db0d901cf5744463)をご一読ください。 -->
+このチュートリアルシリーズの目的・概要等が気になった方はこちらの[全体のまとめ](https://qiita.com/snishym/items/1e0511f8622282993ed1)をご一読ください。
 
 # 参加者情報の取得
 
 さっそく参加者情報を取得していきましょう。今回のチュートリアルで収集する情報は，参加者ID，年齢，性別の3つとします。参加者IDと年齢は`jspsych-survey-text`，性別は`jspsych-survey-multi-choice`というプラグインを使って収集していきます。まずは以下のコードを実行してみてください。
 
-```html
+```html:get_participant_info.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -106,7 +106,7 @@ var par_id = {
 
 上記のコードを少しずつ変更して，他の参加者情報も一時保存するコードは以下のようになります。ここでは合わせて，最後に一時保存した参加者情報をすべての行に追加して保存しています。
 
-```html
+```html:save_participant_info.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -174,7 +174,7 @@ var par_id = {
 
 <details><summary>コード例</summary><div>
 
-```html
+```html:get_info_timeline_variables.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -272,7 +272,7 @@ jsPsych.init({
 
 <details><summary>コード例</summary><div>
 
-```html
+```html:get_participant_info_all.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -288,12 +288,14 @@ jsPsych.init({
       left: 40%;
       top: 50%;
       transform: translateY(-50%) translateX(-50%);
+      -webkit-transform: translateY(-50%) translateX(-50%);
     }
     .text_right {
-      position: absolute; 
-      right: 40%; 
-      top: 50%; 
+      position: absolute;
+      right: 40%;
+      top: 50%;
       transform: translateY(-50%) translateX(50%);
+      -webkit-transform: translateY(-50%) translateX(50%);
     }
   </style>
 </head>
@@ -393,4 +395,4 @@ jsPsych.init({
 
 今回は参加者情報の取得について紹介しました。次回は課題の教示（と注視点）です。
 
-<!-- [【第7回】教示と練習課題](https://qiita.com/snishym/items/3c4b801c25bb98dd0d4e) -->
+[【第7回】教示と練習課題](https://qiita.com/snishym/items/2296fc1aff6d711aaa0b)

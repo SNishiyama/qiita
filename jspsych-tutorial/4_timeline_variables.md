@@ -1,8 +1,8 @@
 # はじめに
 
-本記事は，「jsPsychによる心理学実験作成チュートリアル」の第4回の記事です。**第3回(リンク貼る)**では刺激の提示位置を変更する方法を紹介しました。これまでの記事では`L`は左，`R`は右にだけ提示されるようなコードを書いていました。サイモン課題では位置と反応の競合を生じさせるために，`L`が右に提示されたり，`R`が左に提示される試行も作成する必要があります。今回はそれら4条件の試行を見やすく，編集しやすいコードで作成する方法を紹介します。
+本記事は，「jsPsychによる心理学実験作成チュートリアル」の第4回の記事です。[第3回](https://qiita.com/snishym/items/bec56308c67922c3b3df)では刺激の提示位置を変更する方法を紹介しました。これまでの記事では`L`は左，`R`は右にだけ提示されるようなコードを書いていました。サイモン課題では位置と反応の競合を生じさせるために，`L`が右に提示されたり，`R`が左に提示される試行も作成する必要があります。今回はそれら4条件の試行を見やすく，編集しやすいコードで作成する方法を紹介します。
 
-<!-- このチュートリアルシリーズの目的・概要等が気になった方はこちらの[全体のまとめ](https://qiita.com/snishym/items/8b52db0d901cf5744463)をご一読ください。 -->
+このチュートリアルシリーズの目的・概要等が気になった方はこちらの[全体のまとめ](https://qiita.com/snishym/items/1e0511f8622282993ed1)をご一読ください。
 
 # 4条件分の`trial`変数を作る
 
@@ -10,7 +10,7 @@
 
 <details><summary>コード例</summary><div>
 
-```html
+```html:no-timeline-variable.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,12 +23,14 @@
       left: 40%;
       top: 50%;
       transform: translateY(-50%) translateX(-50%);
+      -webkit-transform: translateY(-50%) translateX(-50%);
     }
     .text_right {
       position: absolute;
       right: 40%;
       top: 50%;
       transform: translateY(-50%) translateX(50%);
+      -webkit-transform: translateY(-50%) translateX(50%);
     }
   </style>
 </head>
@@ -160,7 +162,7 @@ jsPsych.init({
 
 まとめると，以下のようなコードになります。
 
-```html
+```html:timeline_variables_1.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -173,12 +175,14 @@ jsPsych.init({
       left: 40%;
       top: 50%;
       transform: translateY(-50%) translateX(-50%);
+      -webkit-transform: translateY(-50%) translateX(-50%);
     }
     .text_right {
       position: absolute;
       right: 40%;
       top: 50%;
       transform: translateY(-50%) translateX(50%);
+      -webkit-transform: translateY(-50%) translateX(50%);
     }
   </style>
 </head>
@@ -218,9 +222,9 @@ jsPsych.init({
 
 注意しないといけないのは，timeline_variablesを設定すると，そこで指定されている配列`trial_types`に入っている要素の数が試行数になることです。ランダム化する場合は，`trial_types`の方に`randomization.repeat()`を適用するようにしてください。
 
-# timelineVariables（その2）
+# timelineVariables（その２）
 
-さらなる効率化を求める人はこのように思うかもしれません。
+さらにこのように思う人がいるかもしれません。
 
 > `<div class="text_left">L</div>`も，`left`と`L`以外の部分はすべて共通なのだから，`<div class="text_..."></div>`も試行変数の中に入れてしまったほうがいいのではないか。
 
@@ -269,7 +273,7 @@ var trial = {
 
 <details><summary>コード例</summary><div>
 
-```html
+```html:timeline_variables_2.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -282,12 +286,14 @@ var trial = {
       left: 40%;
       top: 50%;
       transform: translateY(-50%) translateX(-50%);
+      -webkit-transform: translateY(-50%) translateX(-50%);
     }
     .text_right {
       position: absolute;
       right: 40%;
       top: 50%;
       transform: translateY(-50%) translateX(50%);
+      -webkit-transform: translateY(-50%) translateX(50%);
     }
   </style>
 </head>
@@ -352,5 +358,4 @@ var trial = {
 
 これでサイモン課題自体は完成しました。ただ，このままだと参加者が課題をどのように遂行したのかを知ることができません。そこで次回は，実験データを（手元のPC上に）保存する方法を紹介します。
 
-<!-- [【第5回】データの保存](https://qiita.com/snishym/items/f80607cbe462f8a4e1d4) -->
-<!-- [【第4回補足】キー反応の取得方法いろいろ](https://qiita.com/snishym/items/f343f24ca8c77ba1fb4a) -->
+[【第5回】データの保存](https://qiita.com/snishym/items/be23aa7cbeeffa49d13a)
