@@ -1,12 +1,21 @@
+# 2021/03/15 補足
+
+2021 年 2 月末くらいにリリースされた`v6.3.0`になって`survey-text`や`survey-multi-choice`など`survey-`系のプラグインで得られた反応を利用するための処理が少し変わりました。
+
+1. `v6.3.0`では，`survey-text`など`survey-`系のプラグインで取得したデータを取り出す際に，`JSON.parse`を使う必要がなくなりました。
+2. また，`変数名.responses`ではなく，`変数名.response`で得られたデータを参照するようになりました（複数形の s がいらない）。
+
+まとめると，以下のサンプルコードで`par_info.id = JSON.parse(data.responses).participantID`となっていたものが，`par_info.id = data.response.participantID`で良くなります（※未検証）。最新版をダウンロードしてこのチュートリアルに望んでいる場合は，その点に留意して以下の内容を読んでください。そのうちちゃんと修正しますが，ひとまずアナウンスにてご了承ください。その他重大な変更点については[全体のまとめ](https://qiita.com/snishym/items/1e0511f8622282993ed1)を参照してください。
+
 # はじめに
 
-本記事は，「jsPsychによる心理学実験作成チュートリアル」の第6回の記事です。[第5回](https://qiita.com/snishym/items/be23aa7cbeeffa49d13a)では実験データの保存方法を紹介しました。今回は，参加者情報の取得について紹介します。
+本記事は，「jsPsych による心理学実験作成チュートリアル」の第 6 回の記事です。[第 5 回](https://qiita.com/snishym/items/be23aa7cbeeffa49d13a)では実験データの保存方法を紹介しました。今回は，参加者情報の取得について紹介します。
 
 このチュートリアルシリーズの目的・概要等が気になった方はこちらの[全体のまとめ](https://qiita.com/snishym/items/1e0511f8622282993ed1)をご一読ください。
 
 # 参加者情報の取得
 
-さっそく参加者情報を取得していきましょう。今回のチュートリアルで収集する情報は，参加者ID，年齢，性別の3つとします。参加者IDと年齢は`jspsych-survey-text`，性別は`jspsych-survey-multi-choice`というプラグインを使って収集していきます。まずは以下のコードを実行してみてください。
+さっそく参加者情報を取得していきましょう。今回のチュートリアルで収集する情報は，参加者 ID，年齢，性別の 3 つとします。参加者 ID と年齢は`jspsych-survey-text`，性別は`jspsych-survey-multi-choice`というプラグインを使って収集していきます。まずは以下のコードを実行してみてください。
 
 ```html:get_participant_info.html
 <!DOCTYPE html>
@@ -56,23 +65,23 @@
 </html>
 ```
 
-全部で3ページの実験（？）プログラムが実行されたはずです。まず，本題とは逸れますが，質問文に日本語を使っているので，`<head>`の直後に`<meta charset="utf-8">`が挿入されています（第1回参照）。
+全部で 3 ページの実験（？）プログラムが実行されたはずです。まず，本題とは逸れますが，質問文に日本語を使っているので，`<head>`の直後に`<meta charset="utf-8">`が挿入されています（第 1 回参照）。
 
 さて，本題です。`survey-text`と`survey-multi-choice`のどちらも`questions:`がメインの設定項目になります。どちらも`questions:[]`と`[]`内に質問の内容や解答欄・選択肢を設定するための連想配列を持ってきますが，その連想配列内で設定できる内容が`text`と`multi-choice`で少し異なります。
 
 `survey-text`の場合，`columns`という設定ができます。これは，回答を入力するためのテキストボックスの幅を決める項目で，数字が大きいほど幅が広くなります。適宜，想定される回答の長さに応じて変更してください。
-`survey-multi-choice`の場合，`options`という設定ができます。これは，選択肢を指定する項目で，例のように，配列を使います。また，`horizontal`という設定もあります。これは選択肢を横(`horizontal`)に並べるか，縦に並べるかどうかを指定できます。`horizontal: true`で横に並べることができます。また，この項目を設定しなければ，jsPsychは自動的に選択を**縦に並べます**。
+`survey-multi-choice`の場合，`options`という設定ができます。これは，選択肢を指定する項目で，例のように，配列を使います。また，`horizontal`という設定もあります。これは選択肢を横(`horizontal`)に並べるか，縦に並べるかどうかを指定できます。`horizontal: true`で横に並べることができます。また，この項目を設定しなければ，jsPsych は自動的に選択を**縦に並べます**。
 
 残りは共通の設定で，`prompt`には質問の内容，`required`では回答を必須とするかどうか，`name`には回答がデータに保存されるときの名前を指定しています。`required`で回答を必須にしていないと無回答で次に進めてしまうので，参加者情報を集める場合に限っては常に`true`でいいでしょう。
 
-なお，`questions`は複数形になっている通り，`[]`内に質問用の連想配列を複数持ってくることができます。その場合，1つのページに2つ以上の質問を提示することができます。適宜利用してください。本チュートリアルでは参加者IDと年齢を尋ねる質問は別々のページで提示することにします。
+なお，`questions`は複数形になっている通り，`[]`内に質問用の連想配列を複数持ってくることができます。その場合，1 つのページに 2 つ以上の質問を提示することができます。適宜利用してください。本チュートリアルでは参加者 ID と年齢を尋ねる質問は別々のページで提示することにします。
 
 ```javascript
 var parID_age = {
   type: 'survey-text',
   questions: [
-    {prompt: '参加者IDを入力してください', columns: 10, required: true, name: 'participantID'},
-    {prompt: '年齢を入力してください', columns: 3, required: true, name: 'age'},
+    { prompt: '参加者IDを入力してください', columns: 10, required: true, name: 'participantID' },
+    { prompt: '年齢を入力してください', columns: 3, required: true, name: 'age' },
   ],
   button_label: '次へ',
 };
@@ -89,20 +98,18 @@ var par_info = {};
 
 var par_id = {
   type: 'survey-text',
-  questions: [
-    {prompt: '参加者IDを入力してください', columns: 10, required: true, name: 'participantID'},
-  ],
+  questions: [{ prompt: '参加者IDを入力してください', columns: 10, required: true, name: 'participantID' }],
   // ここから
-  on_finish: function(data) {
-    par_info.id = JSON.parse(data.responses).participantID
-  }
+  on_finish: function (data) {
+    par_info.id = JSON.parse(data.responses).participantID;
+  },
   // ここまで
 };
 ```
 
-まず，`JSON.parse(data.responses).participantID`について説明します。`data.列名`で保存された特定のデータにアクセスできることは前回紹介したとおりです。先ほど保存されたファイルを確認した際に，回答は`responses`という名前の列に保存されていたので，`data.responses`で回答を取り出すことができます。しかしながら，この時点では`data.responses`に保存されている回答はjsonという形式になっています。これをjavascriptの連想配列に変換するために，`JSON.parse()`を使います。ここでようやく`{participantID:"kla"}`という連想配列が得られます。`連想配列.キー名`でそのキーに対応する値を取り出すことができるので，`.participantID`で`"kla"`という文字列を得ることができます。このキー名は，質問項目の設定`name:`で指定した文字列に一致します。
+まず，`JSON.parse(data.responses).participantID`について説明します。`data.列名`で保存された特定のデータにアクセスできることは前回紹介したとおりです。先ほど保存されたファイルを確認した際に，回答は`responses`という名前の列に保存されていたので，`data.responses`で回答を取り出すことができます。しかしながら，この時点では`data.responses`に保存されている回答は json という形式になっています。これを javascript の連想配列に変換するために，`JSON.parse()`を使います。ここでようやく`{participantID:"kla"}`という連想配列が得られます。`連想配列.キー名`でそのキーに対応する値を取り出すことができるので，`.participantID`で`"kla"`という文字列を得ることができます。このキー名は，質問項目の設定`name:`で指定した文字列に一致します。
 
-次に，`par_info.id =`について説明します。ここでは，参加者IDを事前に作った連想配列`var par_info = {}`に一時保存しています。前回の記事では，`on_finish: function(data) {...}`の中で`data.新しい列名 = 値`とすることで，任意の値を新しい列に保存できることを紹介しました。同様に今回も，`data.id = JSON.parse(...)`として保存しても構わないのですが，その場合参加者IDはたった1行にしか保存されません（試してみてください）。参加者ID，性別などの参加者情報はデータのすべての行にあるほうが分析がしやすい場合が多いので，実験の最後に「すべての行に参加者情報を保存する」という処理が実行できるように，ここでは別の連想配列に一時保存しています。
+次に，`par_info.id =`について説明します。ここでは，参加者 ID を事前に作った連想配列`var par_info = {}`に一時保存しています。前回の記事では，`on_finish: function(data) {...}`の中で`data.新しい列名 = 値`とすることで，任意の値を新しい列に保存できることを紹介しました。同様に今回も，`data.id = JSON.parse(...)`として保存しても構わないのですが，その場合参加者 ID はたった 1 行にしか保存されません（試してみてください）。参加者 ID，性別などの参加者情報はデータのすべての行にあるほうが分析がしやすい場合が多いので，実験の最後に「すべての行に参加者情報を保存する」という処理が実行できるように，ここでは別の連想配列に一時保存しています。
 
 上記のコードを少しずつ変更して，他の参加者情報も一時保存するコードは以下のようになります。ここでは合わせて，最後に一時保存した参加者情報をすべての行に追加して保存しています。
 
@@ -166,11 +173,11 @@ var par_id = {
 </html>
 ```
 
-終盤にある`jsPsych.data.addProperties()`という関数が，すべての行に参加者情報を追加している部分になります。保存されたcsvファイルを確認すると，`par_info.id`, `.age`, `.gender`のそれぞれ`id`, `age`, `gender`が列名になっていて，それらの列のすべての行に，回答が保存されていると思います。
+終盤にある`jsPsych.data.addProperties()`という関数が，すべての行に参加者情報を追加している部分になります。保存された csv ファイルを確認すると，`par_info.id`, `.age`, `.gender`のそれぞれ`id`, `age`, `gender`が列名になっていて，それらの列のすべての行に，回答が保存されていると思います。
 
-# timeline_variablesを使ってみる（余談）
+# timeline_variables を使ってみる（余談）
 
-先ほどのコードでは，参加者情報を集めるために`par_id`，`age`，`gender`と3つの試行変数を作りました。しかし，それぞれの中身の共通部分は多いので，`timeline_variables`を使ってまとめてしまいましょう。紹介はしますが，必須ではないです。
+先ほどのコードでは，参加者情報を集めるために`par_id`，`age`，`gender`と 3 つの試行変数を作りました。しかし，それぞれの中身の共通部分は多いので，`timeline_variables`を使ってまとめてしまいましょう。紹介はしますが，必須ではないです。
 
 <details><summary>コード例</summary><div>
 
@@ -221,7 +228,7 @@ var par_id = {
 
 `type`，`questions`の中身，`colname`（保存時の列名）が質問内容によって変わるので，各ページでそれらが変更されるように，`question_settings`という`timeline_variables`を作っています。一つ前の例のコードと見比べてどのように`jsPsych.timelineVariable`を使っているかを確認してください。
 
-2点，これまで説明していなかったものがあるので，それについて説明します。どちらも`par_info[colname] = JSON.parse(data.responses).Q0`に関わるものです
+2 点，これまで説明していなかったものがあるので，それについて説明します。どちらも`par_info[colname] = JSON.parse(data.responses).Q0`に関わるものです
 
 1. `par_info[colname] =`とあるように，連想配列への要素の追加は`par_info.キー名`だけでなく，`par_info[キー名]`でも行うことができます。
 2. 各質問内容の設定（`question_settigns`の`question:`）で`name:`を指定していません。指定しない場合，デフォルトの設定が反映され回答は`{Q0: 回答}`と保存されます。そうすれば，どの質問でも，`JSON.parse(data.responses).Q0`で回答を取り出せるようになります。`name:`を指定してしまうと，この`.Q0`の部分が指定された名前に変更されてしまうため，ここにも`jsPsych.timelineVariable()`を使う必要がでてきます。
@@ -234,38 +241,45 @@ var par_id = {
 
 ```javascript
 jsPsych.init({
-  timeline: [{
-    timeline_variables: trial_types,
-    timeline: [trial],
-  }],
+  timeline: [
+    {
+      timeline_variables: trial_types,
+      timeline: [trial],
+    },
+  ],
   // 以下省略...
-})
+});
 ```
 
 ここに，`par_id`, `age`, `gender`を追加していく必要があります。以下のようにすればいいのですが，
 
 ```javascript
 jsPsych.init({
-  timeline: [par_id, age, gender, {
-    timeline_variables: trial_types,
-    timeline: [trial],
-  }],
+  timeline: [
+    par_id,
+    age,
+    gender,
+    {
+      timeline_variables: trial_types,
+      timeline: [trial],
+    },
+  ],
   // 以下省略...
-})
+});
 ```
 
 このままだと外側の`timeline:[]`の中身が見にくくなってしまいます。実は，`{timeline_variables: ..., timeline: ...}`の部分は事前に別のところで変数として作っておくことができます。この部分は，サイモン課題に対応しているので，下の例では`simon`という名前をつけています。
 
 ```javascript
 var simon = {
-    timeline_variables: trial_types,
-    timeline: [trial],
-  }
+  timeline_variables: trial_types,
+  timeline: [trial],
+};
 
 jsPsych.init({
   timeline: [par_id, age, gender, simon],
   // 以下省略...
-})
+});
 ```
 
 これで，実験の流れがかなり見やすくなったと思います。すべてまとめたコードは以下を参照してください。
@@ -390,9 +404,8 @@ jsPsych.init({
 
 </div></details>
 
-
 # おわりに
 
 今回は参加者情報の取得について紹介しました。次回は課題の教示（と注視点）です。
 
-[【第7回】教示と練習課題](https://qiita.com/snishym/items/2296fc1aff6d711aaa0b)
+[【第 7 回】教示と練習課題](https://qiita.com/snishym/items/2296fc1aff6d711aaa0b)
