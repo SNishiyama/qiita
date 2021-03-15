@@ -1,6 +1,6 @@
 # はじめに
 
-本記事は，「jsPsychによる心理学実験作成チュートリアル」の第7回の記事です。[第6回](https://qiita.com/snishym/items/e0f82fa972970cda632c)では参加者情報の取得方法を紹介しました。そこで実験課題は完成しましたが，もう少し実験プログラムを作り込んで行きます。今回は課題の教示，課題の練習をこれまでのコードに追加します。
+本記事は，「jsPsych による心理学実験作成チュートリアル」の第 7 回の記事です。[第 6 回](https://qiita.com/snishym/items/e0f82fa972970cda632c)では参加者情報の取得方法を紹介しました。そこで実験課題は完成しましたが，もう少し実験プログラムを作り込んで行きます。今回は課題の教示，課題の練習をこれまでのコードに追加します。
 
 このチュートリアルシリーズの目的・概要等が気になった方はこちらの[全体のまとめ](https://qiita.com/snishym/items/1e0511f8622282993ed1)をご一読ください。
 
@@ -8,7 +8,7 @@
 
 参加者が課題を行うにあたって，どのように進めればいいか説明する必要があります。といっても，これまで使い続けてきた`html-keyboard-response`を使えばいいだけです[^1]。
 
-[^1]: ただし，教示文の改行や配置（左寄せ・中央寄せ）にこだわりがあったり，図なども教示に表示したいという場合は，パワーポイントなどで教示用の画像を作って`image-keyboard-response`で提示させたほうが楽かもしれません。htmlなので，自由なレイアウトが可能ですが使い方を勉強する必要があります。
+[^1]: ただし，教示文の改行や配置（左寄せ・中央寄せ）にこだわりがあったり，図なども教示に表示したいという場合は，パワーポイントなどで教示用の画像を作って`image-keyboard-response`で提示させたほうが楽かもしれません。html なので，自由なレイアウトが可能ですが使い方を勉強する必要があります。
 
 ```html:show_instruction.html
 <!DOCTYPE html>
@@ -36,29 +36,31 @@
 
 このコードについて特に説明することはありません。これを課題の前に入れれば，教示に続けて課題が実行されます。しかしながら，「教示です」なんて教示はありません。もっと課題の概要・取り組み方を説明しなければなりません。
 
-本シリーズで作成してきたサイモン課題は，まず「キー押しの課題です」。具体的には，「LとRがランダムに提示されます」。そして，参加者がしなければならないのは，提示された刺激が「『L』なら左手人差し指で f キーを押し，『R』なら右手人差し指で j キーを押す」ということです。適切に改行しながらこれを反映すると，`stimulus:`の部分は以下のようになります。`<br>`で改行することができます。
+本シリーズで作成してきたサイモン課題は，まず「キー押しの課題です」。具体的には，「L と R がランダムに提示されます」。そして，参加者がしなければならないのは，提示された刺激が「『L』なら左手人差し指で f キーを押し，『R』なら右手人差し指で j キーを押す」ということです。適切に改行しながらこれを反映すると，`stimulus:`の部分は以下のようになります。`<br>`で改行することができます。
 
 ```javascript
 var instruction = {
   type: 'html-keyboard-response',
-  stimulus: 'これからキー押し課題を行ってもらいます。<br>「L」「R」がランダムに表示されるので，<br><br>「L」が表示されたら左手人差し指で f キー<br>「R」が表示されたら右手人差し指で j キー<br><br> を押してください。<br>準備ができたらいずれかのキーを押して課題を始めてください。',
-}
+  stimulus:
+    'これからキー押し課題を行ってもらいます。<br>「L」「R」がランダムに表示されるので，<br><br>「L」が表示されたら左手人差し指で f キー<br>「R」が表示されたら右手人差し指で j キー<br><br> を押してください。<br>準備ができたらいずれかのキーを押して課題を始めてください。',
+};
 ```
 
-これで教示としてはOKになりました。改行を2つ重ねていると空白行ができるので，段落などのまとまりを作って，見やすくしたりすることができます。しかし，実験を作っている立場からすると，1行で書くのは見にくくて不便です。
+これで教示としては OK になりました。改行を 2 つ重ねていると空白行ができるので，段落などのまとまりを作って，見やすくしたりすることができます。しかし，実験を作っている立場からすると，1 行で書くのは見にくくて不便です。
 
 解決方法の一つは，いくつかの文字列に分割して，`+`で連結するようにします。`+`を使っている部分ではコード上で改行することができるので，コードを見やすくすることができます。
 
 ```javascript
 var instruction = {
   type: 'html-keyboard-response',
-  stimulus: 'これからキー押し課題を行ってもらいます。<br>' +
-            '「L」「R」がランダムに表示されるので，<br><br>' +
-            '「L」が表示されたら左手人差し指で f キー<br>'+
-            '「R」が表示されたら右手人差し指で j キー<br><br>' +
-            'を押してください。<br>' +
-            '準備ができたらいずれかのキーを押して課題を始めてください。',
-}
+  stimulus:
+    'これからキー押し課題を行ってもらいます。<br>' +
+    '「L」「R」がランダムに表示されるので，<br><br>' +
+    '「L」が表示されたら左手人差し指で f キー<br>' +
+    '「R」が表示されたら右手人差し指で j キー<br><br>' +
+    'を押してください。<br>' +
+    '準備ができたらいずれかのキーを押して課題を始めてください。',
+};
 ```
 
 # 課題の練習
@@ -67,16 +69,16 @@ var instruction = {
 
 ```javascript
 var trial_types = [
-  {letter: 'L', pos: 'left', cond: 'cong'},
-  {letter: 'R', pos: 'left', cond: 'incong'},
-  {letter: 'L', pos: 'right', cond: 'incong'},
-  {letter: 'R', pos: 'right', cond: 'cong'},
+  { letter: 'L', pos: 'left', cond: 'cong' },
+  { letter: 'R', pos: 'left', cond: 'incong' },
+  { letter: 'L', pos: 'right', cond: 'incong' },
+  { letter: 'R', pos: 'right', cond: 'cong' },
 ];
 
 var trial = {
   type: 'html-keyboard-response',
   // 省略
-}
+};
 
 // 練習と本番で別々のtimeline_variablesを作成する
 var trial_types_practice = jsPsych.randomization.repeat(trial_types, 2);
@@ -84,13 +86,13 @@ var trial_types_main = jsPsych.randomization.repeat(trial_types, 10);
 
 // それぞれをtimeline_variablesに指定したブロックを作成する
 var simon_practice = {
-    timeline_variables: trial_types_practice,
-    timeline:[trial]
-}
+  timeline_variables: trial_types_practice,
+  timeline: [trial],
+};
 var simon_main = {
   timeline_variables: trial_types_main,
   timeline: [trial],
-}
+};
 
 jsPsych.init({
   timeline: [simon_practice, simon_main],
@@ -98,24 +100,24 @@ jsPsych.init({
 });
 ```
 
-基本的にこれでOKです。分析の際は，`internal_node_id`の列を参照すれば本番の試行だけを取り出すことが可能です。もし，より明示的にどの部分が課題の練習/本番なのかをデータに残しておきたいのであれば，少し冗長にはなりますが，以下のように書けばいいでしょう。
+基本的にこれで OK です。分析の際は，`internal_node_id`の列を参照すれば本番の試行だけを取り出すことが可能です。もし，より明示的にどの部分が課題の練習/本番なのかをデータに残しておきたいのであれば，少し冗長にはなりますが，以下のように書けばいいでしょう。
 
 <details><summary>コード例</summary><div>
 
 ```javascript
 // 練習と本番で別々のtimeline_variablesを作成する
 var trial_types_practice = [
-  {letter: 'L', pos: 'left', cond: 'cong', phase: 'practice'},
-  {letter: 'R', pos: 'left', cond: 'incong', phase: 'practice'},
-  {letter: 'L', pos: 'right', cond: 'incong', phase: 'practice'},
-  {letter: 'R', pos: 'right', cond: 'cong', phase: 'practice'},
+  { letter: 'L', pos: 'left', cond: 'cong', phase: 'practice' },
+  { letter: 'R', pos: 'left', cond: 'incong', phase: 'practice' },
+  { letter: 'L', pos: 'right', cond: 'incong', phase: 'practice' },
+  { letter: 'R', pos: 'right', cond: 'cong', phase: 'practice' },
 ];
 
 var trial_types_main = [
-  {letter: 'L', pos: 'left', cond: 'cong', phase: 'main'},
-  {letter: 'R', pos: 'left', cond: 'incong', phase: 'main'},
-  {letter: 'L', pos: 'right', cond: 'incong', phase: 'main'},
-  {letter: 'R', pos: 'right', cond: 'cong', phase: 'main'},
+  { letter: 'L', pos: 'left', cond: 'cong', phase: 'main' },
+  { letter: 'R', pos: 'left', cond: 'incong', phase: 'main' },
+  { letter: 'L', pos: 'right', cond: 'incong', phase: 'main' },
+  { letter: 'R', pos: 'right', cond: 'cong', phase: 'main' },
 ];
 
 var trial = {
@@ -125,23 +127,23 @@ var trial = {
     letter: jsPsych.timelineVariable('letter'),
     pos: jsPsych.timelineVariable('pos'),
     cond: jsPsych.timelineVariable('cond'),
-    phase: jsPsych.timelineVariable('phase') // phase情報を追加する
+    phase: jsPsych.timelineVariable('phase'), // phase情報を追加する
   },
   // 省略
-}
+};
 
 trial_types_practice = jsPsych.randomization.repeat(trial_types_practice, 2);
 trial_types_main = jsPsych.randomization.repeat(trial_types_main, 10);
 
 // それぞれをtimeline_variablesに指定したブロックを作成する
 var simon_practice = {
-    timeline_variables: trial_types_practice,
-    timeline:[trial]
-}
+  timeline_variables: trial_types_practice,
+  timeline: [trial],
+};
 var simon_main = {
   timeline_variables: trial_types_main,
   timeline: [trial],
-}
+};
 
 jsPsych.init({
   timeline: [simon_practice, simon_main],
@@ -305,7 +307,7 @@ jsPsych.init({
     timeline_variables: trial_types_main,
     timeline: [trial],
   }
-  
+
   jsPsych.init({
     timeline: [par_id, age, gender, instruction, go_practice, fixation, simon_practice, go_main, fixation, simon_main],
     on_finish: function() {
@@ -318,14 +320,18 @@ jsPsych.init({
 </html>
 ```
 
-</details></summary>
+</div></details>
 
-試行間隔の時間（ITI）を設けるために，これまでずっと`jsPsych.init({})`に`default_iti`という項目を設けていましたが，これを削除して，適宜必要な部分に`post_trial_gap`という項目を設定しています（具体的には，`go_practice`，`go_main`，`fixation`, `trial`）。`default_iti`だと画面が遷移するたびに指定した時間だけ空白の画面が挿入されます。しかし，参加者情報の入力などでは必要ないので，必要な部分だけにITIを設けるようにしました。
+試行間隔の時間（ITI）を設けるために，これまでずっと`jsPsych.init({})`に`default_iti`という項目を設けていましたが，これを削除して，適宜必要な部分に`post_trial_gap`という項目を設定しています（具体的には，`go_practice`，`go_main`，`fixation`, `trial`）。`default_iti`だと画面が遷移するたびに指定した時間だけ空白の画面が挿入されます。しかし，参加者情報の入力などでは必要ないので，必要な部分だけに ITI を設けるようにしました。
 
 # おわりに
 
 これでサイモン課題実験が完成しました。お疲れ様です。ぜひ，身近な人に実施してみてください。
 
-もちろん，チュートリアルということで，jsPsychの機能のほんの一部しか紹介していません。ウィンドウの全画面表示の方法すら紹介していません。しかし，ここまでやり遂げたみなさんなら，ダウンロードしたjsPsychに同梱されているexampleコードや，[jsPsychの公式リファレンス](https://www.jspsych.org/)を見ながら，ご自身の研究課題に合わせてコードを書くことができるはずです。
+もちろん，チュートリアルということで，jsPsych の機能のほんの一部しか紹介していません。ウィンドウの全画面表示の方法すら紹介していません。しかし，ここまでやり遂げたみなさんなら，ダウンロードした jsPsych に同梱されている example コードや，[jsPsych の公式リファレンス](https://www.jspsych.org/)を見ながら，ご自身の研究課題に合わせてコードを書くことができるはずです。
 
 これからもがんばってください。
+
+# 2021/03/15 更新
+
+このチュートリアルのつぎのステップとして読むといいかもしれない記事を zenn というサイトで公開しています（[zenn の マイページ](https://zenn.dev/snishiyama)）。今後は zenn で記事を公開していくつもりなので，そちらもたまに見に来ていただけると幸いです。
