@@ -99,43 +99,9 @@ win.close() # 画面を閉じる
 
 となります。
 
-### ウィンドウに画像を提示する
-
-#### 下準備
-
-提示するための画像を練習用のフォルダ（`psychopy-practice`）に用意します。このページの画像ファイル（CoderとBuilderの画像）を「右クリック>名前をつけて保存」から`builder-coder.png`という名前で保存してください。
-
-#### コードを書く
-
-新しいファイルを作成して，以下のコードを書いてください。
-
-```python:show_image.py
-from psychopy import visual, core
-
-win = visual.Window()
-
-photo = visual.ImageStim(win, "builder-coder.png") # 1. 画像刺激の準備
-
-photo.draw() # 2. 刺激の描画
-win.flip()
-
-core.wait(3)
-
-win.close()
-```
-
-ウィンドウの中央に画像が表示されたはずです。
-
-直前の`show_text`から2点変更点があります。
-
-1. 「こんにちは，世界！」画像刺激（`ImageStim`）を`photo`という名前で準備
-2. `hello.draw()` —-> `photo.draw()` に変更（コード上での刺激の名前を`photo`にしたから）
-
-1つ目は気付きやすいですが，2つ目を見落としてしまった人もいるかもしれません。それでもエラーが出る場合は，ファイルの名前や保存先が間違っているかもしれません。エラーメッセージをよく確認しましょう。
-
 **2021/07/02更新**
 
-一部端末で以下のようなエラーが表示されることがあるようです。エラーの下から4行目の右端に`pix2deg`や`pix2cm`とある場合は，psychopyの `設定 > 一般`の中の単位が `deg` や `cm` になってないか確認してください。そうなっている場合は，`norm` や `height` にすると正常に動作する可能性が高いです。
+一部端末で以下のようなエラーが表示されることがあるようです。エラーの下から4行目の右端に`pix2deg`や`pix2cm`とある場合は，psychopyの `設定 > 一般` にある `単位` が `deg` や `cm` になってないか確認してください。そうなっている場合は，`norm` や `height` にすると正常に動作する可能性が高いです。
 
 <details><summary>エラー例</summary><div>
 
@@ -173,6 +139,40 @@ ValueError: Monitor __blank__ has no known size in pixels (SEE MONITOR CENTER)
 ```
 
 </div></details>
+
+### ウィンドウに画像を提示する
+
+#### 下準備
+
+提示するための画像を練習用のフォルダ（`psychopy-practice`）に用意します。このページの画像ファイル（CoderとBuilderの画像）を「右クリック>名前をつけて保存」から`builder-coder.png`という名前で保存してください。
+
+#### コードを書く
+
+新しいファイルを作成して，以下のコードを書いてください。
+
+```python:show_image.py
+from psychopy import visual, core
+
+win = visual.Window()
+
+photo = visual.ImageStim(win, "builder-coder.png") # 1. 画像刺激の準備
+
+photo.draw() # 2. 刺激の描画
+win.flip()
+
+core.wait(3)
+
+win.close()
+```
+
+ウィンドウの中央に画像が表示されたはずです。
+
+直前の`show_text`から2点変更点があります。
+
+1. 「こんにちは，世界！」画像刺激（`ImageStim`）を`photo`という名前で準備
+2. `hello.draw()` —-> `photo.draw()` に変更（コード上での刺激の名前を`photo`にしたから）
+
+1つ目は気付きやすいですが，2つ目を見落としてしまった人もいるかもしれません。それでもエラーが出る場合は，ファイルの名前や保存先が間違っているかもしれません。エラーメッセージをよく確認しましょう。
 
 ### 複数の刺激を一度に提示する
 
