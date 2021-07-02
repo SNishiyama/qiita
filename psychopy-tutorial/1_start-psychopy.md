@@ -87,6 +87,8 @@ core.wait(3) # 3秒待つ
 win.close() # 画面を閉じる
 ```
 
+
+
 ウィンドウの中央に「こんにちは，世界！」と言う文字列が表示されたはずです[^1]。**Macの場合，デフォルトのフォントでは日本語の表示が崩れてしまうので，上記コードのようにフォントを指定してください。以降の記事ではこれについて言及していませんが，日本語を提示する際は注意してください**。
 
 新たに増えた行の処理はそれぞれ，
@@ -130,6 +132,47 @@ win.close()
 2. `hello.draw()` —-> `photo.draw()` に変更（コード上での刺激の名前を`photo`にしたから）
 
 1つ目は気付きやすいですが，2つ目を見落としてしまった人もいるかもしれません。それでもエラーが出る場合は，ファイルの名前や保存先が間違っているかもしれません。エラーメッセージをよく確認しましょう。
+
+**2021/07/02更新**
+
+一部端末で以下のようなエラーが表示されることがあるようです。エラーの下から4行目の右端に`pix2deg`や`pix2cm`とある場合は，psychopyの `設定 > 一般`の中の単位が `deg` や `cm` になってないか確認してください。そうなっている場合は，`norm` や `height` にすると正常に動作する可能性が高いです。
+
+<details><summary>エラー例</summary><div>
+
+```
+################ Running: C:\PsychoPy\psychopy-practice\pic.py #################
+pygame 1.9.6
+Hello from the pygame community. https://www.pygame.org/contribute.html
+3.4469     WARNING     Monitor specification not found. Creating a temporary one...
+3.4492     WARNING     User requested fullscreen with size [800 600], but screen is actually [3440, 1440]. Using actual size
+Traceback (most recent call last):
+  File "C:\PsychoPy\psychopy-practice\pic.py", line 5, in <module>
+    photo = visual.ImageStim(win, "builder-coder.png") # 1. 画像刺激の準備
+  File "C:\Program Files\PsychoPy3\lib\site-packages\psychopy\visual\image.py", line 96, in __init__
+    self.color = color
+  File "C:\Program Files\PsychoPy3\lib\site-packages\psychopy\visual\basevisual.py", line 365, in color
+    self.foreColor = value
+  File "C:\Program Files\PsychoPy3\lib\site-packages\psychopy\visual\image.py", line 277, in foreColor
+    self.setImage(self._imName, log=False)
+  File "C:\Program Files\PsychoPy3\lib\site-packages\psychopy\visual\image.py", line 338, in setImage
+    setAttribute(self, 'image', value, log)
+  File "C:\Program Files\PsychoPy3\lib\site-packages\psychopy\tools\attributetools.py", line 141, in setAttribute
+    setattr(self, attrib, value)
+  File "C:\Program Files\PsychoPy3\lib\site-packages\psychopy\tools\attributetools.py", line 32, in __set__
+    newValue = self.func(obj, value)
+  File "C:\Program Files\PsychoPy3\lib\site-packages\psychopy\visual\image.py", line 328, in image
+    self.size = None  # set size to default
+  File "C:\Program Files\PsychoPy3\lib\site-packages\psychopy\tools\attributetools.py", line 32, in __set__
+    newValue = self.func(obj, value)
+  File "C:\Program Files\PsychoPy3\lib\site-packages\psychopy\visual\basevisual.py", line 1470, in size
+    self.win.monitor)
+  File "C:\Program Files\PsychoPy3\lib\site-packages\psychopy\tools\monitorunittools.py", line 269, in pix2deg
+    raise ValueError(msg % monitor.name)
+ValueError: Monitor __blank__ has no known size in pixels (SEE MONITOR CENTER)
+##### Experiment ended. #####
+```
+
+</div></details>
 
 ### 複数の刺激を一度に提示する
 
